@@ -18,8 +18,10 @@ const Promise3=new Promise((resolve)=>{
 Promise.all([Promise1,Promise2,Promise3]).then(resolvedData=>{
 	 tbody.innerHTML = "";
 	resolvedData.forEach((data,index)=>{
-		tbody.innerHTML+=`<td>Promise ${index+1}</td>
-		                  <td>${data}</td>`
+		tbody.innerHTML+=`<tr>
+		                  <td>Promise ${index+1}</td>
+		                  <td>${data}</td>
+						  </tr>`
 	})
 	const total = Math.max(...resolvedData);
         tbody.innerHTML += `
