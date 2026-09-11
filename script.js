@@ -1,19 +1,26 @@
 const tbody = document.getElementById("output");
 
+// Initially show Loading...
+tbody.innerHTML = `
+    <tr>
+        <td colspan="2">Loading...</td>
+    </tr>
+`;
+
 function createPromise() {
     return new Promise((resolve) => {
 
-        const startTime = performance.now();
+        const start = performance.now();
 
-        // Random delay between 1 and 3 seconds
+        // Random delay: 1, 2, or 3 seconds
         const delay = Math.floor(Math.random() * 3 + 1) * 1000;
 
         setTimeout(() => {
 
-            const endTime = performance.now();
+            const end = performance.now();
 
             // Actual time taken in seconds
-            const timeTaken = (endTime - startTime) / 1000;
+            const timeTaken = (end - start) / 1000;
 
             resolve(timeTaken);
 
@@ -26,28 +33,28 @@ const promise2 = createPromise();
 const promise3 = createPromise();
 
 Promise.all([promise1, promise2, promise3])
-    .then((resolvedData) => {
+    .then((results) => {
 
-        // Remove Loading... row
+        // Remove Loading...
         tbody.innerHTML = "";
 
-        // Add Promise 1, Promise 2, Promise 3
-        resolvedData.forEach((data, index) => {
+        results.forEach((time, index) => {
 
             tbody.innerHTML += `
                 <tr>
                     <td>Promise ${index + 1}</td>
-                    <td>${data.toFixed(3)}</td>
+                    <td>${time.toFixed(3)}</td>
                 </tr>
             `;
         });
+
         // Longest promise = total time
-        const totalTime = Math.max(...resolvedData);
+        const total = Math.max(...results);
 
         tbody.innerHTML += `
             <tr>
                 <td>Total</td>
-                <td>${totalTime.toFixed(3)}</td>
+                <td>${total.toFixed(3)}</td>
             </tr>
         `;
     });
